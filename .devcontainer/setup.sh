@@ -53,3 +53,9 @@ EOF
 # 5. Права доступа
 sudo chown -R www-data:www-data /var/www/html/
 sudo chmod -R 755 /var/www/html/
+
+# Создаем папку для плагина в репозитории, если её нет
+mkdir -p /workspaces/my-wp-2026/my-plugin
+
+# Создаем "портал" (симлинк) из папки плагинов WordPress в твой репозиторий
+sudo ln -s /workspaces/my-wp-2026/my-plugin /var/www/html/wp-content/plugins/my-plugin
