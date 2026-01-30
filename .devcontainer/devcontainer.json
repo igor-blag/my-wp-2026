@@ -1,5 +1,5 @@
 {
-    "name": "WordPress Dev Environment 2026",
+    "name": "WordPress Modern Dev Environment",
     "build": {
         "dockerfile": "Dockerfile"
     },
@@ -7,17 +7,19 @@
         "vscode": {
             "extensions": [
                 "bmewburn.vscode-intelephense-client",
-                "resolvedev.mysql-client"
+                "resolvedev.mysql-client",
+                "dsznajder.es7-react-js-snippets"
             ]
         }
     },
-    // Пробрасываем порт 80 автоматически
+    // Auto-forward port 80 to access the web server
     "forwardPorts": [80],
     
-    // Эта команда выполняется ОДИН РАЗ, когда контейнер создан
+    // Setup script runs once after container creation
     "postCreateCommand": "bash .devcontainer/setup.sh",
+
+    // Start services every time the container starts
     "postStartCommand": "sudo service apache2 start && sudo service mysql start",
 
-    // Настройка прав для пользователя
     "remoteUser": "vscode"
 }

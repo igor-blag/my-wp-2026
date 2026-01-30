@@ -1,0 +1,13 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "create-block/edu-staff-registry",
+    "title": "Edu Staff Registry Block",
+    "category": "widgets",
+    "icon": "universal-access",
+    "description": "A professional block scaffolded in GitHub Codespaces.",
+    "textdomain": "edu-staff-registry",
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./index.css",
+    "style": "file:./style-index.css"
+}
