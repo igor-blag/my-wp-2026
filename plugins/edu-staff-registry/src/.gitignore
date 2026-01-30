@@ -1,0 +1,18 @@
+# Системные файлы Mac/Windows
+.DS_Store
+Thumbs.db
+
+# Зависимости Node.js (их никогда не пушим!)
+node_modules/
+
+# Скомпилированные файлы (их создаст pnpm build)
+build/
+dist/
+
+# Логи ошибок
+npm-debug.log*
+pnpm-debug.log*
+
+# Временные файлы WordPress (если они вдруг попали в рабочую папку)
+wp-config.php
+.htaccess

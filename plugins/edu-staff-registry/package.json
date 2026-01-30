@@ -1,0 +1,17 @@
+{
+  "name": "edu-staff-registry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+      "start": "wp-scripts start",
+      "build": "wp-scripts build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.28.2",
+  "devDependencies": {
+    "@wordpress/scripts": "^31.4.0"
+  }
+}
