@@ -51,23 +51,33 @@ require_once ABSPATH . 'wp-settings.php';
 EOF
 
 
-# Путь к твоим плагинам в репозитории
-MY_PLUGINS_DIR="/workspaces/${PWD##*/}/plugins"
+# 5. Определение путей (максимально надежно)
+# Если переменная пуста, используем стандартный путь
+WORKSPACE_PATH=${CONTAINER_WORKSPACE_FOLDER:-"/workspaces/my-wp-2026"}
+MY_PLUGINS_DIR="$WORKSPACE_PATH/plugins"
+
+echo "Ищу плагины в: $MY_PLUGINS_DIR"
 
 # Создаем папку, если её нет
 mkdir -p "$MY_PLUGINS_DIR"
 
-# Даем права Apache
-sudo chown -R www-data:www-data /var/www/html/
-sudo chmod -R 755 /var/www/html/
+# 6. Проверка: а есть ли там вообще что-то?
+if [ -z "$(ls -A $MY_PLUGINS_DIR)" ]; then
+   echo "ВНИМАНИЕ: Папка $MY_PLUGINS_DIR пуста. Нечего связывать!"
+fi
 
-# Проходим по всем папкам внутри /plugins
+# 7. Создание ссылок
 for plugin_path in "$MY_PLUGINS_DIR"/*; do
-    # Проверяем, что это папка, а не файл
     if [ -d "$plugin_path" ]; then
         plugin_name=$(basename "$plugin_path")
-        echo "Linking plugin: $plugin_name"
-        # -s (символическая), -n (не переходить по ссылке), -f (принудительно обновить)
+        echo "Создаю ссылку для плагина: $plugin_name"
         sudo ln -snf "$plugin_path" /var/www/html/wp-content/plugins/"$plugin_name"
     fi
 done
+
+# 8. Права доступа (в самом конце)
+sudo chown -R www-data:www-data /var/www/html/
+sudo chmod -R 755 /var/www/html/
+# Даем Apache право читать файлы из репозитория
+sudo usermod -aG vscode www-data
+chmod -R 755 "$WORKSPACE_PATH"
