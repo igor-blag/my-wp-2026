@@ -1,14 +1,13 @@
-# Берем официальный образ Ubuntu 24.04
+# Используем Ubuntu 24.04
 FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
 
-# Устанавливаем всё, что мы ставили руками, одной командой
-# Мы объединяем команды через &&, чтобы контейнер был "легче"
+# 1. Установка системных пакетов
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install -y apache2 mysql-server php libapache2-mod-php php-mysql \
+    && apt-get install -y apache2 mysql-server php libapache2-mod-php php-mysql nodejs npm \
     && apt-get clean
 
-# Включаем модуль rewrite, который мы включали руками
-RUN a2enmod rewrite
+# 2. Установка pnpm через обычный npm (так надежнее в этой версии Ubuntu)
+RUN npm install -g pnpm
 
-# Копируем настройки (мы их создадим на следующем шаге)
-# Эти команды выполняются ОДИН РАЗ при сборке образа
+# 3. Включаем модуль Apache для красивых ссылок
+RUN a2enmod rewrite
