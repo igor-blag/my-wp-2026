@@ -50,12 +50,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once ABSPATH . 'wp-settings.php';
 EOF
 
-# 5. Права доступа
+
+# Путь к твоим плагинам в репозитории
+MY_PLUGINS_DIR="/workspaces/${PWD##*/}/plugins"
+
+# Создаем папку, если её нет
+mkdir -p "$MY_PLUGINS_DIR"
+
+# Проходим по всем папкам внутри /plugins
+for plugin_path in "$MY_PLUGINS_DIR"/*; do
+    # Проверяем, что это папка, а не файл
+    if [ -d "$plugin_path" ]; then
+        plugin_name=$(basename "$plugin_path")
+        echo "Linking plugin: $plugin_name"
+        # -s (символическая), -n (не переходить по ссылке), -f (принудительно обновить)
+        sudo ln -snf "$plugin_path" /var/www/html/wp-content/plugins/"$plugin_name"
+    fi
+done
+
+# Даем права Apache
 sudo chown -R www-data:www-data /var/www/html/
-sudo chmod -R 755 /var/www/html/
-
-# Создаем папку для плагина в репозитории, если её нет
-mkdir -p /workspaces/my-wp-2026/my-plugin
-
-# Создаем "портал" (симлинк) из папки плагинов WordPress в твой репозиторий
-sudo ln -s /workspaces/my-wp-2026/my-plugin /var/www/html/wp-content/plugins/my-plugin
+# sudo chmod -R 755 /var/www/html/
