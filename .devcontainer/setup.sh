@@ -57,6 +57,10 @@ MY_PLUGINS_DIR="/workspaces/${PWD##*/}/plugins"
 # Создаем папку, если её нет
 mkdir -p "$MY_PLUGINS_DIR"
 
+# Даем права Apache
+sudo chown -R www-data:www-data /var/www/html/
+sudo chmod -R 755 /var/www/html/
+
 # Проходим по всем папкам внутри /plugins
 for plugin_path in "$MY_PLUGINS_DIR"/*; do
     # Проверяем, что это папка, а не файл
@@ -67,7 +71,3 @@ for plugin_path in "$MY_PLUGINS_DIR"/*; do
         sudo ln -snf "$plugin_path" /var/www/html/wp-content/plugins/"$plugin_name"
     fi
 done
-
-# Даем права Apache
-sudo chown -R www-data:www-data /var/www/html/
-sudo chmod -R 755 /var/www/html/
